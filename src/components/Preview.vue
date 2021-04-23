@@ -24,11 +24,11 @@ import { Image } from '@/types/image';
 
 @Component
 export default class Preview extends Vue {
-    images: any[] = [];
-    hNum = 3;
+    private images: any[] = [];
+    private hNum = 3;
 
     public mounted() {
-        (this.$store.state.images as Image[]).forEach(i => {
+        (this.$store.state.images as Image[]).forEach((i) => {
             if (i.checked) {
                 this.images.push(i);
             }
@@ -41,7 +41,7 @@ export default class Preview extends Vue {
         this.change();
     }
 
-    public change() {
+    private change() {
         const width = 100 / this.hNum;
 
         const elements = document.getElementsByClassName('image');
@@ -52,11 +52,11 @@ export default class Preview extends Vue {
         }
     }
 
-  public print() {
+  private print() {
       print();
   }
 
-  public back() {
+  private back() {
       this.$router.back();
   }
 }

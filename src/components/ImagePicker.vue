@@ -43,10 +43,6 @@ export default class ImagePicker extends Vue {
         { path: './images/pop18.png', checked: false },
     ];
 
-    mounted() {
-        console.log('mounted')
-    }
-
     public preview() {
         this.$store.commit('setImages', this.images);
         this.$router.push({ name: 'Preview' });

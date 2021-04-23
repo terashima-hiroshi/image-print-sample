@@ -6,12 +6,12 @@
 
 <script>
 // @ is an alias to /src
-import PreviewConponent from '@/components/Preview.vue'
+import PreviewConponent from '@/components/Preview.vue';
 
 export default {
   name: 'Preview',
   components: {
-    PreviewConponent
-  }
-}
+    PreviewConponent,
+  },
+};
 </script>

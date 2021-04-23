@@ -5,12 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        images: []
+        images: [],
     },
     mutations: {
         setImages(state, payload) {
             state.images = payload;
-        }
+        },
     },
     actions: {
     },
