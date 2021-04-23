@@ -27,39 +27,7 @@ import { Image } from '@/types/image';
 
 @Component
 export default class ImagePicker extends Vue {
-    private images: Image[] = [
-        { path: './images/pop1.png', checked: false },
-        { path: './images/pop2.png', checked: false },
-        { path: './images/pop3.png', checked: false },
-        { path: './images/pop4.png', checked: false },
-        { path: './images/pop5.png', checked: false },
-        { path: './images/pop6.png', checked: false },
-        { path: './images/pop7.png', checked: false },
-        { path: './images/pop8.png', checked: false },
-        { path: './images/pop11.png', checked: false },
-        { path: './images/pop12.png', checked: false },
-        { path: './images/pop13.png', checked: false },
-        { path: './images/pop14.png', checked: false },
-        { path: './images/pop15.png', checked: false },
-        { path: './images/pop16.png', checked: false },
-        { path: './images/pop17.png', checked: false },
-        { path: './images/pop18.png', checked: false },
-        { path: './images/pop21.png', checked: false },
-        { path: './images/pop22.png', checked: false },
-        { path: './images/pop23.png', checked: false },
-        { path: './images/pop24.png', checked: false },
-        { path: './images/pop25.png', checked: false },
-        { path: './images/pop26.png', checked: false },
-        { path: './images/pop27.png', checked: false },
-        { path: './images/pop28.png', checked: false },
-    ];
-
-    public mounted() {
-        const last = this.$store.state.images as Image[];
-        if (last?.length) {
-            this.images = last;
-        }
-    }
+    private get images() { return this.$store.state.images as Image[]; }
 
     private selectAll() {
         this.images.forEach((i) => i.checked = true);

@@ -3,10 +3,8 @@
     <div class="ctrl" style="position: relative;">
         <div>
             横に並べる数
-            <input type="number" min="1" v-model="hNum" @change="change">
+            <input type="number" style="width: 70px;" min="1" v-model="hNum" @change="change">
             <button @click="print">印刷</button>
-        </div>
-        <div style="position: absolute; top: 0; right: 0; padding: 20px;">
             <button @click="back">戻る</button>
         </div>
     </div>
@@ -62,9 +60,8 @@ export default class Preview extends Vue {
                 tmp = [image];
             }
         });
-        if (tmp.length > 0) {
-            this.images.push(tmp);
-        }
+        // 最後の行を積む
+        this.images.push(tmp);
     }
 
   private print() {
