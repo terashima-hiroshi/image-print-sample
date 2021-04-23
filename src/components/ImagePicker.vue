@@ -48,13 +48,24 @@ export default class ImagePicker extends Vue {
 </script>
 
 <style scoped>
+.image-picker {
+    height: 100vh;
+    overflow-y: hidden;
+}
+h3 {
+    margin: 0;
+}
 .ctrl {
     padding: 20px;
+    height: 60px;
+    border-bottom: 1px solid lightgray;
 }
-
 .panel {
+    max-height: calc(100% - 100px);
+    overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
+    padding: 10px;
 }
 .image {
     flex-basis: 25%;

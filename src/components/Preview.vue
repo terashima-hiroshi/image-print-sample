@@ -1,10 +1,10 @@
 <template>
   <div class="preview">
-    <div class="ctrl" style="position: relative;">
+    <div class="ctrl">
         <div>
-            横に並べる数
-            <input type="number" style="width: 70px;" min="1" v-model="hNum" @change="change">
-            <button @click="print">印刷</button>
+            <h3>印刷設定</h3>
+            <input type="number" style="width: 70px;" min="1" v-model="hNum" @change="change">列
+            <button @click="print">印刷プレビュー</button>
             <button @click="back">戻る</button>
         </div>
     </div>
@@ -34,14 +34,14 @@ import { Image } from '@/types/image';
 @Component
 export default class Preview extends Vue {
     private images: Image[][] = [];
-    private hNum = 3;
+    private hNum = 4;
     private get src(): Image[] { return this.$store.state.images; }
     private get imageStyle() {
         return `width: ${100 / this.hNum}%`;
     }
 
     public mounted() {
-        if (!this.src.length) {
+        if (this.src.every((i) => !i.checked)) {
             this.$router.replace({ name: 'Home' });
         }
 
@@ -76,20 +76,35 @@ export default class Preview extends Vue {
 
 <style scoped>
 @media print{
-  .ctrl {
-      display: none;
-  }
-  .panel {
-      zoom: 1;
-      width: 100vw;
-  }
+    .preview {
+        height: 100% !important;
+    }
+    .ctrl {
+        display: none;
+    }
+    .panel {
+        zoom: 1;
+        width: 100vw;
+        max-height: 100%;
+    }
 }
 
+.preview {
+    height: 100vh;
+    overflow-y: hidden;
+}
+h3 {
+    margin: 0;
+}
 .ctrl {
     padding: 20px;
+    height: 60px;
+    border-bottom: 1px solid lightgray;
 }
 .panel {
-    max-width: 100vw;
+    max-height: calc(100% - 100px);
+    max-width: 100%;
+    overflow-y: auto;
 }
 .row {
     display: block;
