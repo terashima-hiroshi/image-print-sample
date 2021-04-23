@@ -1,22 +1,28 @@
 <template>
   <div class="preview">
-      <div class="ctrl" style="position: relative;">
-          <div>
-              横に並べる数
-              <input type="number" min="1" v-model="hNum" @change="change">
-              <button @click="print">印刷</button>
-          </div>
-          <div style="position: absolute; top: 0; right: 0; padding: 20px;">
-              <button @click="back">戻る</button>
-          </div>
-      </div>
-        <div class="panel">
+    <div class="ctrl" style="position: relative;">
+        <div>
+            横に並べる数
+            <input type="number" min="1" v-model="hNum" @change="change">
+            <button @click="print">印刷</button>
+        </div>
+        <div style="position: absolute; top: 0; right: 0; padding: 20px;">
+            <button @click="back">戻る</button>
+        </div>
+    </div>
+    <div class="panel">
         <div
-            class="image"
-            v-for="(image, index) in images"
-            :key="index">
-            <div class="wrap">
-                <img alt="pop" :src="image.path">
+            class="row"
+            v-for="(row, rIndex) in images"
+            :key="rIndex">
+            <div
+                class="image"
+                :style="imageStyle"
+                v-for="(image, cIndex) in row"
+                :key="cIndex">
+                <div class="wrap">
+                    <img alt="pop" :src="image.path">
+                </div>
             </div>
         </div>
     </div>
@@ -24,36 +30,40 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Image } from '@/types/image';
 
 @Component
 export default class Preview extends Vue {
-    private images: any[] = [];
+    private images: Image[][] = [];
     private hNum = 3;
+    private get src(): Image[] { return this.$store.state.images; }
+    private get imageStyle() {
+        return `width: ${100 / this.hNum}%`;
+    }
 
     public mounted() {
-        (this.$store.state.images as Image[]).forEach((i) => {
-            if (i.checked) {
-                this.images.push(i);
-            }
-        });
-
-        if (!this.images.length) {
-            this.$router.replace({ name: 'Home'});
+        if (!this.src.length) {
+            this.$router.replace({ name: 'Home' });
         }
 
         this.change();
     }
 
     private change() {
-        const width = 100 / this.hNum;
+        this.images = [];
 
-        const elements = document.getElementsByClassName('image');
-        if (elements.length) {
-            for (const el of elements) {
-                (el as HTMLElement).style.flexBasis = width + '%';
+        let tmp: Image[] = [];
+        this.src.filter((image) => image.checked).forEach((image) => {
+            if (tmp.length < this.hNum) {
+                tmp.push(image);
+            } else {
+                this.images.push(tmp);
+                tmp = [image];
             }
+        });
+        if (tmp.length > 0) {
+            this.images.push(tmp);
         }
     }
 
@@ -76,5 +86,29 @@ export default class Preview extends Vue {
       zoom: 1;
       width: 100vw;
   }
+}
+
+.ctrl {
+    padding: 20px;
+}
+.panel {
+    max-width: 100vw;
+}
+.row {
+    display: block;
+    page-break-inside: avoid;
+    width: 100%;
+}
+.row > .image {
+    display: inline-block;
+}
+.row > .image > .wrap {
+    padding: 10px;
+}
+img {
+    width: 100%;
+}
+button {
+    margin: 0 10px;
 }
 </style>

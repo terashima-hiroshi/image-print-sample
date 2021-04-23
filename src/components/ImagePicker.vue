@@ -2,6 +2,8 @@
   <div class="image-picker">
       <div class="ctrl">
           <h3>画像を選択してください</h3>
+          <button @click="selectAll">すべて選択</button>
+          <button @click="clear">すべてクリア</button>
           <button @click="preview">次へ</button>
       </div>
       <div class="panel">
@@ -20,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Image } from '@/types/image';
 
 @Component
@@ -42,9 +44,35 @@ export default class ImagePicker extends Vue {
         { path: './images/pop16.png', checked: false },
         { path: './images/pop17.png', checked: false },
         { path: './images/pop18.png', checked: false },
+        { path: './images/pop21.png', checked: false },
+        { path: './images/pop22.png', checked: false },
+        { path: './images/pop23.png', checked: false },
+        { path: './images/pop24.png', checked: false },
+        { path: './images/pop25.png', checked: false },
+        { path: './images/pop26.png', checked: false },
+        { path: './images/pop27.png', checked: false },
+        { path: './images/pop28.png', checked: false },
     ];
 
-    public preview() {
+    public mounted() {
+        const last = this.$store.state.images as Image[];
+        if (last?.length) {
+            this.images = last;
+        }
+    }
+
+    private selectAll() {
+        this.images.forEach((i) => i.checked = true);
+    }
+
+    private clear() {
+        this.images.forEach((i) => i.checked = false);
+    }
+
+    private preview() {
+        if (this.images.every((i) => !i.checked)) {
+            return alert('画像を選択してください');
+        }
         this.$store.commit('setImages', this.images);
         this.$router.push({ name: 'Preview' });
     }
@@ -61,8 +89,7 @@ export default class ImagePicker extends Vue {
     flex-wrap: wrap;
 }
 .image {
-    flex-basis: 33%;
-    max-width: 50vw;
+    flex-basis: 25%;
     margin-bottom: 30px;
 }
 .image > .wrap{
@@ -70,5 +97,8 @@ export default class ImagePicker extends Vue {
 }
 .image > .wrap > img {
     width: 100%;
+}
+button {
+    margin: 0 10px;
 }
 </style>

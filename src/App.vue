@@ -19,25 +19,4 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
 }
-
-
-.ctrl {
-    padding: 20px;
-}
-
-.panel {
-    display: flex;
-    flex-wrap: wrap;
-}
-.image {
-    flex-basis: 33%;
-    /* max-width: 50vw; */
-    margin-bottom: 30px;
-}
-.image > .wrap{
-    padding: 0 10px;
-}
-.image > .wrap > img {
-    width: 100%;
-}
 </style>
