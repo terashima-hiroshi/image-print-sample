@@ -1,9 +1,14 @@
 <template>
   <div class="preview">
-      <div class="ctrl">
-          <input type="number" min="1" v-model="hNum" @change="change">
-          <button @click="print">print</button>
-          <button @click="back">back</button>
+      <div class="ctrl" style="position: relative;">
+          <div>
+              横に並べる数
+              <input type="number" min="1" v-model="hNum" @change="change">
+              <button @click="print">印刷</button>
+          </div>
+          <div style="position: absolute; top: 0; right: 0; padding: 20px;">
+              <button @click="back">戻る</button>
+          </div>
       </div>
         <div class="panel">
         <div

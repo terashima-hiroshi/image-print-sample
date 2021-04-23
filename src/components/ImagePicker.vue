@@ -1,7 +1,8 @@
 <template>
   <div class="image-picker">
       <div class="ctrl">
-          <button @click="preview">preview</button>
+          <h3>画像を選択してください</h3>
+          <button @click="preview">次へ</button>
       </div>
       <div class="panel">
         <div
