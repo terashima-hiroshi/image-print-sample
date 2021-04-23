@@ -4,25 +4,20 @@
         <div>
             <h3>印刷設定</h3>
             <input type="number" style="width: 70px;" min="1" v-model="hNum" @change="change">列
+            <input id="check" type="checkbox" v-model="dashed">
+            <label for="check">破線</label>
             <button @click="print">印刷プレビュー</button>
             <button @click="back">戻る</button>
         </div>
     </div>
     <div class="panel">
-        <div
-            class="row"
-            v-for="(row, rIndex) in images"
-            :key="rIndex">
-            <div
-                class="image"
-                :style="imageStyle"
-                v-for="(image, cIndex) in row"
-                :key="cIndex">
-                <div class="wrap">
+        <table :class="{dashed}">
+            <tr v-for="(row, rIndex) in images" :key="rIndex">
+                <td v-for="(image, cIndex) in row" :key="cIndex">
                     <img alt="pop" :src="image.path">
-                </div>
-            </div>
-        </div>
+                </td>
+            </tr>
+        </table>
     </div>
   </div>
 </template>
@@ -35,6 +30,7 @@ import { Image } from '@/types/image';
 export default class Preview extends Vue {
     private images: Image[][] = [];
     private hNum = 4;
+    private dashed = false;
     private get src(): Image[] { return this.$store.state.images; }
     private get imageStyle() {
         return `width: ${100 / this.hNum}%`;
@@ -106,21 +102,23 @@ h3 {
     max-width: 100%;
     overflow-y: auto;
 }
-.row {
-    display: block;
-    page-break-inside: avoid;
-    width: 100%;
-}
-.row > .image {
-    display: inline-block;
-}
-.row > .image > .wrap {
-    padding: 10px;
-}
 img {
     width: 100%;
 }
 button {
     margin: 0 10px;
+}
+table {
+    overflow-y: auto;
+    border-collapse: collapse;
+}
+tr {
+    page-break-inside: avoid;
+}
+td {
+    padding: 10px;
+}
+table.dashed > tr > td {
+    border: dashed 1px #000000;
 }
 </style>
