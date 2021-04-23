@@ -1,4 +1,4 @@
-# taiyo-sample
+# image-print-sample
 
 ## Project setup
 ```
