@@ -13,7 +13,7 @@
     <div class="panel">
         <table :class="{dashed}">
             <tr v-for="(row, rIndex) in images" :key="rIndex">
-                <td v-for="(image, cIndex) in row" :key="cIndex">
+                <td v-for="(image, cIndex) in row" :key="cIndex" :style="imageStyle">
                     <img alt="pop" :src="image.path">
                 </td>
             </tr>
