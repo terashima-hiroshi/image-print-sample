@@ -11,8 +11,8 @@
             class="image"
             v-for="(image, index) in images"
             :key="index"
-            @click="image.checked = !image.checked">
-            <div class="wrap">
+            :class="{selected: image.checked}">
+            <div class="wrap" @click="image.checked = !image.checked">
                 <img alt="pop" :src="image.path">
             </div>
             <input type="checkbox" v-model="image.checked">
@@ -72,7 +72,13 @@ h3 {
     margin-bottom: 30px;
 }
 .image > .wrap{
-    padding: 0 10px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+.image.selected > .wrap {
+    border: 1px solid rgb(200, 200, 255);
+    background-color: rgb(240, 240, 255);;
 }
 .image > .wrap > img {
     width: 100%;
