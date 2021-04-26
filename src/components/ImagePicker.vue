@@ -76,9 +76,13 @@ h3 {
     padding: 10px;
     cursor: pointer;
 }
+.image > .wrap:hover{
+    background-color: rgb(240, 240, 240);
+}
 .image.selected > .wrap {
+    padding: 9px;
     border: 1px solid rgb(200, 200, 255);
-    background-color: rgb(240, 240, 255);;
+    background-color: rgb(240, 240, 255);
 }
 .image > .wrap > img {
     width: 100%;
