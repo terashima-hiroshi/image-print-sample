@@ -5,7 +5,7 @@
             <h3>印刷設定</h3>
             <input type="number" style="width: 40px;" min="1" v-model="hNum" @change="change">列
             <div style="display: inline-block; margin: 10px;" />
-            余白<input type="number" style="width: 40px;" min="0" v-model="padding" @change="change">px
+            余白<input type="number" style="width: 40px;" min="0" v-model="padding" @change="change">mm
             <div style="display: inline-block; margin: 10px;" />
             <input id="check" type="checkbox" v-model="dashed">
             <label for="check">破線</label>
@@ -34,13 +34,13 @@ import { Image } from '@/types/image';
 export default class Preview extends Vue {
     private images: Image[][] = [];
     private hNum = 4;
-    private padding = 10;
+    private padding = 3;
     private dashed = false;
     private get src(): Image[] { return this.$store.state.images; }
     private get imageStyle() {
         const styles = [
             `width: ${100 / this.hNum}%`,
-            `padding: ${this.padding}px`,
+            `padding: ${this.padding}mm`,
         ];
         return styles.join(';');
     }
