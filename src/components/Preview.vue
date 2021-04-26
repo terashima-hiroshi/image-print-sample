@@ -3,9 +3,13 @@
     <div class="ctrl">
         <div>
             <h3>印刷設定</h3>
-            <input type="number" style="width: 70px;" min="1" v-model="hNum" @change="change">列
+            <input type="number" style="width: 40px;" min="1" v-model="hNum" @change="change">列
+            <div style="display: inline-block; margin: 10px;" />
+            余白<input type="number" style="width: 40px;" min="0" v-model="padding" @change="change">px
+            <div style="display: inline-block; margin: 10px;" />
             <input id="check" type="checkbox" v-model="dashed">
             <label for="check">破線</label>
+            <div style="display: inline-block; margin: 10px;" />
             <button @click="print">印刷プレビュー</button>
             <button @click="back">戻る</button>
         </div>
@@ -30,10 +34,15 @@ import { Image } from '@/types/image';
 export default class Preview extends Vue {
     private images: Image[][] = [];
     private hNum = 4;
+    private padding = 10;
     private dashed = false;
     private get src(): Image[] { return this.$store.state.images; }
     private get imageStyle() {
-        return `width: ${100 / this.hNum}%`;
+        const styles = [
+            `width: ${100 / this.hNum}%`,
+            `padding: ${this.padding}px`,
+        ];
+        return styles.join(';');
     }
 
     public mounted() {
@@ -115,9 +124,9 @@ table {
 tr {
     page-break-inside: avoid;
 }
-td {
+/* td {
     padding: 10px;
-}
+} */
 table.dashed > tr > td {
     border: dashed 1px #000000;
 }
