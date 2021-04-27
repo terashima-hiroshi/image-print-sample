@@ -39,4 +39,8 @@ npm run build
 ※GitBash等、cdコマンドが使えるターミナルを使用すること
 
 - ビルドファイルごとリモートにプッシュ
-- ※mainブランチの/docsディレクトリがデプロイ対象となっているため、プッシュ後しばらくすると反映される
+- ※mainブランチの/docsディレクトリがデプロイ対象となっているため、プッシュ後しばらくするとPagesに反映され、以下のページが更新される
+
+#### GitHub Pagesによる公開ページ
+
+https://terashima-hiroshi.github.io/image-print-sample/
