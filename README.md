@@ -27,3 +27,16 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### deploy
+
+- ローカルでビルド
+
+```
+npm run build
+```
+
+※GitBash等、cdコマンドが使えるターミナルを使用すること
+
+- ビルドファイルごとリモートにプッシュ
+- ※mainブランチの/docsディレクトリがデプロイ対象となっているため、プッシュ後しばらくすると反映される
