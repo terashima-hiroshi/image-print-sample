@@ -162,6 +162,9 @@ img {
 button {
     margin: 0 10px;
 }
+.row {
+    page-break-inside: avoid;
+}
 .row.break {
     margin-top: 30px;
     page-break-before: always;
