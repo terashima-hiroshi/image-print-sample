@@ -3,9 +3,20 @@
     <div class="ctrl">
         <div>
             <h3>印刷設定</h3>
-            <input type="number" style="width: 40px;" min="1" v-model="hNum" @change="change">列
+            <div class="label-input">
+                <input type="number" style="width: 40px;" min="1" v-model="horizontal" @input="change">
+                <label>よこ</label>
+            </div>
+            x
+            <div class="label-input">
+                <input type="number" style="width: 40px;" min="1" v-model="vertical" @input="change">
+                <label>たて</label>
+            </div>
             <div style="display: inline-block; margin: 10px;" />
-            余白<input type="number" style="width: 40px;" min="0" v-model="padding" @change="change">mm
+            <div class="label-input">
+                <input type="number" style="width: 40px;" min="1" v-model="padding" @input="change">
+                <label>余白(mm)</label>
+            </div>
             <div style="display: inline-block; margin: 10px;" />
             <input id="check" type="checkbox" v-model="dashed">
             <label for="check">破線</label>
@@ -15,13 +26,15 @@
         </div>
     </div>
     <div class="panel">
-        <table :class="{dashed}">
-            <tr v-for="(row, rIndex) in images" :key="rIndex">
-                <td v-for="(image, cIndex) in row" :key="cIndex" :style="imageStyle">
-                    <img alt="pop" :src="image.path">
-                </td>
-            </tr>
-        </table>
+        <div class="page" :class="{dashed: dashed}">
+            <div class="row" v-for="(row, rIndex) in images" :key="rIndex" :class="{break: isBreak(rIndex)}">
+                <div class="wrapper">
+                    <div class="col" v-for="(image, cIndex) in row" :key="cIndex" :style="imageStyle">
+                        <img v-if="image.path" alt="pop" :src="image.path">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
 </template>
@@ -33,13 +46,14 @@ import { Image } from '@/types/image';
 @Component
 export default class Preview extends Vue {
     private images: Image[][] = [];
-    private hNum = 4;
+    private horizontal = 4;
+    private vertical = 4;
     private padding = 3;
     private dashed = false;
     private get src(): Image[] { return this.$store.state.images; }
     private get imageStyle() {
         const styles = [
-            `width: ${100 / this.hNum}%`,
+            `flex-basis: ${100 / this.horizontal}%`,
             `padding: ${this.padding}mm`,
         ];
         return styles.join(';');
@@ -58,24 +72,36 @@ export default class Preview extends Vue {
 
         let tmp: Image[] = [];
         this.src.filter((image) => image.checked).forEach((image) => {
-            if (tmp.length < this.hNum) {
+            if (tmp.length < this.horizontal) {
                 tmp.push(image);
             } else {
                 this.images.push(tmp);
                 tmp = [image];
             }
         });
+        if (tmp.length < this.horizontal) {
+            for (let i = tmp.length; i < this.horizontal; i++) {
+                tmp.push({ path: '', checked: false });
+            }
+        }
         // 最後の行を積む
         this.images.push(tmp);
     }
 
-  private print() {
-      print();
-  }
+    private isBreak(rowIndex: number) {
+        if (rowIndex > 0 && rowIndex % this.vertical === 0) {
+            return true;
+        }
+        return false;
+    }
 
-  private back() {
-      this.$router.back();
-  }
+    private print() {
+        print();
+    }
+
+    private back() {
+        this.$router.back();
+    }
 }
 </script>
 
@@ -92,6 +118,10 @@ export default class Preview extends Vue {
         width: 100vw;
         max-height: 100%;
     }
+    tr.break {
+        page-break-before: always;
+        border-top: inherit;
+    }
 }
 
 .preview {
@@ -106,10 +136,25 @@ h3 {
     height: 60px;
     border-bottom: 1px solid lightgray;
 }
+.label-input {
+    display: inline-block;
+    position: relative;
+}
+.label-input > label {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    font-size: 10px;
+    text-align: left;
+    line-height: 1em;
+    color: rgb(170, 170, 170);
+}
 .panel {
     max-height: calc(100% - 100px);
     max-width: 100%;
     overflow-y: auto;
+    background-color: rgb(230, 230, 230);
 }
 img {
     width: 100%;
@@ -117,17 +162,26 @@ img {
 button {
     margin: 0 10px;
 }
-table {
-    overflow-y: auto;
-    border-collapse: collapse;
+.row.break {
+    margin-top: 30px;
+    page-break-before: always;
 }
-tr {
-    page-break-inside: avoid;
+.row > .wrapper {
+    display: flex;
 }
-/* td {
-    padding: 10px;
-} */
-table.dashed > tr > td {
-    border: dashed 1px #000000;
+.col {
+    background-color: white;
+}
+.dashed > .row > .wrapper > .col {
+    border-top: dashed 1px #000000;
+    border-left: dashed 1px #000000;
+}
+/** 一行目のセル */
+.dashed > .row:first-child > .wrapper > .col {
+    border-top: none;
+}
+/** 一列目のセル */
+.dashed > .row > .wrapper > .col:first-child {
+    border-left: none;
 }
 </style>
