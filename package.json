@@ -5,10 +5,14 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build && cp -a docs/index.html docs/404.html",
-        "lint": "vue-cli-service lint"
+        "lint": "vue-cli-service lint",
+        "postinstall": "npm run build",
+        "start": "node server.js"
     },
     "dependencies": {
         "core-js": "^3.6.5",
+        "express": "^4.17.1",
+        "path": "^0.12.7",
         "vue": "^2.6.11",
         "vue-class-component": "^7.2.3",
         "vue-property-decorator": "^9.1.2",
